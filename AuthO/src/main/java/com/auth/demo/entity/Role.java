@@ -9,19 +9,17 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Entity
-@Table(name = "login")
+@Table(name = "role")
 @Getter
 @Setter
 @ToString
-public class Login {
-
+public class Role {
+	
 	@Id
-	@Column(name = "login_id")
-	private Long loginId;
+	@Column(name = "role_id")
+	private Long roleId;
 	
-	@Column(name = "user_name")
-	private String userName;
-	
-	@Column(name = "password")
-	private String password;
+	@Column(name = "role_name")
+	private String roleName;
+
 }

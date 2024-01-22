@@ -1,5 +1,5 @@
 create table sign_up(
-user_id int not null,
+user_id bigint not null,
 first_name varchar(30),
 last_name varchar(30),
 password varchar(200),
@@ -9,7 +9,7 @@ primary key(user_id)
 );
 
 create table login(
-login_id int not null primary key,
+login_id bigint not null primary key,
 user_name varchar(50),
 password varchar(200)
 )
