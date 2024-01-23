@@ -8,23 +8,22 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 @Entity
-@Table(name = "login")
+@Table(name = "user_role")
 @Getter
 @Setter
-@ToString
-public class Login {
+public class UserRole {
 
 	@Id
-	@Column(name = "login_id")
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long loginId;
-	
-	@Column(name = "user_name")
-	private String userName;
-	
-	@Column(name = "password")
-	private String password;
+	@Column
+	private Long id;
+
+	@Column(name = "user_id")
+	private Long userId;
+
+	@Column(name = "role_id")
+	private Long roleId;
+
 }
