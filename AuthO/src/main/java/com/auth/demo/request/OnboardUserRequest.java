@@ -1,8 +1,8 @@
 package com.auth.demo.request;
 
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
-import lombok.NonNull;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -10,23 +10,23 @@ import lombok.ToString;
 @Setter
 @ToString
 public class OnboardUserRequest {
-	
-	@NonNull
-	@Size(max = 30,min = 5)
+
+	@NotNull(message = "firstname.error.null")
+	@Size(max = 30, min = 5, message = "firstname.error.size")
 	private String firstName;
-	
-	@NonNull
-	@Size(max = 30,min = 5)
+
+	@NotNull(message = "lastname.error.null")
+	@Size(max = 30, min = 5, message = "lastname.error.size")
 	private String lastName;
-	
-	@NonNull
+
+	@NotNull(message = "password.error.null")
 	private String password;
-	
-	@NonNull
-	@Size(max = 10,min = 10)
+
+	@NotNull(message = "phoneNo.error.null")
+	@Size(max = 10, min = 10, message = "phoneNo.error.size")
 	private String phoneNo;
-	
-	@Size(max = 20)
+
+	@Size(max = 20, message = "city.error.size")
 	private String city;
 
 }

@@ -8,4 +8,6 @@ import com.auth.demo.entity.SignUp;
 @Repository
 public interface SignUpRepo extends JpaRepository<SignUp, Long> {
 
+	SignUp findByUserId(Long id);
+
 }

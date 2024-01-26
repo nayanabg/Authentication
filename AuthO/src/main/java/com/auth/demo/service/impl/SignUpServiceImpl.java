@@ -5,11 +5,16 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.auth.demo.constants.RoleConstants;
+import com.auth.demo.entity.Role;
 import com.auth.demo.entity.SignUp;
 import com.auth.demo.entity.UserRole;
+import com.auth.demo.repo.RoleRepo;
 import com.auth.demo.repo.SignUpRepo;
+import com.auth.demo.repo.UserRoleRepo;
 import com.auth.demo.request.OnboardUserRequest;
 import com.auth.demo.response.OnboardResponse;
+import com.auth.demo.response.UserDetailsResponse;
 import com.auth.demo.service.SignUpService;
 
 import jakarta.validation.Valid;
@@ -19,7 +24,12 @@ public class SignUpServiceImpl implements SignUpService {
 
 	@Autowired
 	SignUpRepo signUpRepo;
+
+	@Autowired
+	RoleRepo roleRepo;
 	
+	@Autowired
+	UserRoleRepo userRoleRepo;
 
 	Logger log = LoggerFactory.getLogger(SignUpService.class);
 
@@ -37,15 +47,31 @@ public class SignUpServiceImpl implements SignUpService {
 		signUpRepo.save(user);
 
 		log.info("New user onboarded : " + user.getUserId());
-		
+
 		UserRole userRole = new UserRole();
 		userRole.setUserId(user.getUserId());
-		userRole.setRoleId(1L);
-		
+		userRole.setRoleId((long) RoleConstants.USER.getRoleId());
+		userRoleRepo.save(userRole);
+
+		Role role = roleRepo.findRoleByRoleId(userRole.getRoleId());
+
 		OnboardResponse response = new OnboardResponse();
 		response.setUserId(user.getUserId());
 		response.setUserName(user.getFirstName() + " " + user.getLastName());
+		response.setRoleName(role.getRoleName());
 
+		return response;
+	}
+
+	@Override
+	public UserDetailsResponse getUserDetailsById(Long id) {
+
+		SignUp user = signUpRepo.findByUserId(id);
+		UserRole userRole = userRoleRepo.findRoleByUserId(user.getUserId());
+		Role role = roleRepo.findRoleByRoleId(userRole.getRoleId());
+
+		UserDetailsResponse response = new UserDetailsResponse(user.getFirstName() + " " + user.getLastName(),
+				user.getPhoneNo(), user.getCity(), role.getRoleName());
 		return response;
 	}
 
