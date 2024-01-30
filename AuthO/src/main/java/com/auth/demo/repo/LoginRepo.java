@@ -8,4 +8,6 @@ import com.auth.demo.entity.Login;
 @Repository
 public interface LoginRepo extends JpaRepository<Login, Long> {
 
+	Login findByUserNameAndPassword(String userName, String password);
+
 }

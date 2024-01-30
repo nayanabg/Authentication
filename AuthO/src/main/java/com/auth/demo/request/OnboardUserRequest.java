@@ -12,11 +12,11 @@ import lombok.ToString;
 public class OnboardUserRequest {
 
 	@NotNull(message = "firstname.error.null")
-	@Size(max = 30, min = 5, message = "firstname.error.size")
+	@Size(max = 30, min = 3, message = "firstname.error.size")
 	private String firstName;
 
 	@NotNull(message = "lastname.error.null")
-	@Size(max = 30, min = 5, message = "lastname.error.size")
+	@Size(max = 30, min = 2, message = "lastname.error.size")
 	private String lastName;
 
 	@NotNull(message = "password.error.null")

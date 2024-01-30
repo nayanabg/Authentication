@@ -1,5 +1,7 @@
 package com.auth.demo.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +20,6 @@ import com.auth.demo.response.UserDetailsResponse;
 import com.auth.demo.service.SignUpService;
 
 import jakarta.validation.Valid;
-import jakarta.websocket.server.PathParam;
 
 @RestController
 @RequestMapping("/signup")
@@ -35,13 +36,18 @@ public class SignUpController {
 				response);
 
 	}
-	
+
 	@GetMapping("/user/{id}")
-	public ResponseEntity<Object> getUserById(@PathVariable Long id){
-		
+	public ResponseEntity<Object> getUserById(@PathVariable Long id) {
+
 		UserDetailsResponse response = signUpService.getUserDetailsById(id);
-		return ResponseHandler.generateResponse(StatusConstants.USER_FOUND.getStatusMessage(), HttpStatus.OK,
-				response);
-		
+		return ResponseHandler.generateResponse(StatusConstants.USER_FOUND.getStatusMessage(), HttpStatus.OK, response);
+
+	}
+
+	@GetMapping("/user/details")
+	public ResponseEntity<Object> getUserDetails() {
+		List<UserDetailsResponse> response = signUpService.getUserDetails();
+		return ResponseHandler.generateResponse(StatusConstants.USER_FOUND.getStatusMessage(), HttpStatus.OK, response);
 	}
 }

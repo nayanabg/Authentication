@@ -1,14 +1,19 @@
 package com.auth.demo.service.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.auth.demo.constants.RoleConstants;
+import com.auth.demo.entity.Login;
 import com.auth.demo.entity.Role;
 import com.auth.demo.entity.SignUp;
 import com.auth.demo.entity.UserRole;
+import com.auth.demo.repo.LoginRepo;
 import com.auth.demo.repo.RoleRepo;
 import com.auth.demo.repo.SignUpRepo;
 import com.auth.demo.repo.UserRoleRepo;
@@ -27,9 +32,12 @@ public class SignUpServiceImpl implements SignUpService {
 
 	@Autowired
 	RoleRepo roleRepo;
-	
+
 	@Autowired
 	UserRoleRepo userRoleRepo;
+
+	@Autowired
+	LoginRepo loginRepo;
 
 	Logger log = LoggerFactory.getLogger(SignUpService.class);
 
@@ -60,6 +68,15 @@ public class SignUpServiceImpl implements SignUpService {
 		response.setUserName(user.getFirstName() + " " + user.getLastName());
 		response.setRoleName(role.getRoleName());
 
+		log.info("Register user details for login purpose ");
+
+		String userName = user.getFirstName() + " " + user.getLastName();
+		
+		Login login = new Login();
+		login.setUserName(userName.trim());
+		login.setPassword(user.getPassword());
+		loginRepo.save(login);
+
 		return response;
 	}
 
@@ -73,6 +90,24 @@ public class SignUpServiceImpl implements SignUpService {
 		UserDetailsResponse response = new UserDetailsResponse(user.getFirstName() + " " + user.getLastName(),
 				user.getPhoneNo(), user.getCity(), role.getRoleName());
 		return response;
+	}
+
+	@Override
+	public List<UserDetailsResponse> getUserDetails() {
+
+		List<SignUp> usersList = signUpRepo.findAll();
+		List<UserDetailsResponse> usersDetailsList = new ArrayList<>();
+
+		for (SignUp user : usersList) {
+
+			UserRole userRole = userRoleRepo.findRoleByUserId(user.getUserId());
+			Role role = roleRepo.findRoleByRoleId(userRole.getRoleId());
+			UserDetailsResponse response = new UserDetailsResponse(user.getFirstName() + " " + user.getLastName(),
+					user.getPhoneNo(), user.getCity(), role.getRoleName());
+			usersDetailsList.add(response);
+		}
+
+		return usersDetailsList;
 	}
 
 }

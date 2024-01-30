@@ -2,7 +2,8 @@ package com.auth.demo.constants;
 
 public enum StatusConstants {
 
-	ONBOARD_SUCCESS(101, "user.onboard.success"), USER_FOUND(102, "user.details.found");
+	ONBOARD_SUCCESS(101, "user.onboard.success"), USER_FOUND(102, "user.details.found"),
+	LOGIN_SUCCESS(103, "login.user.success");
 
 	private int code;
 	private String message;
